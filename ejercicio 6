@@ -1,0 +1,44 @@
+mysql> show databases;
++--------------------------+
+| Database                 |
++--------------------------+
+| BRianRams$Brian-Trabajos |
+| BRianRams$Marte          |
+| BRianRams$Trabajadores   |
+| BRianRams$carrito        |
+| BRianRams$desarrollo     |
+| BRianRams$directorio     |
+| BRianRams$ordenes        |
+| information_schema       |
+| performance_schema       |
++--------------------------+
+9 rows in set (1.58 sec)
+mysql> use BRianRams$Marte ;
+Database changed
+mysql> CREATE TABLE MisionMarte (
+    ->     Id_Candidato int(18) NOT NULL,
+    ->     Descripcion varchar(15) NOT NULL,
+    ->     PRIMARY KEY(Id_Candidato,Descripcion) );
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+mysql> INSERT INTO MisionMarte values
+    -> (1001,'Geólogo'),(1001,'Astrónomo'),(1001, 'Bioquímico'),
+    -> (1001, 'Técnico'),(2002, 'Cirujano'),(2002, 'Mecánico'),
+    -> (2002, 'Geólogo'),(3003, 'Geólogo'),(3003, 'Astrónomo'),
+    -> (4004, 'Ingeniero');
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+mysql> SELECT Id_Candidato
+    -> 
+    -> FROM MisionMarte
+    -> 
+    -> WHERE  Descripcion IN ('Geólogo','Astrónomo','Bioquímico')
+    -> 
+    -> GROUP BY  Id_Candidato
+    -> HAVING
+    ->     COUNT(DISTINCT Descripcion) = 3;
++--------------+
+| Id_Candidato |
++--------------+
+|         1001 |
++--------------+
+1 row in set (0.00 sec)
