@@ -1,0 +1,54 @@
+mysql> show databases;
++--------------------------+
+| Database                 |
++--------------------------+
+| BRianRams$Brian-Trabajos |
+| BRianRams$carrito        |
+| information_schema       |
+| performance_schema       |
++--------------------------+
+4 rows in set (0.07 sec)
+
+mysql> use BRianRams$carrito ;
+Database changed
+mysql> CREATE TABLE CarritoA (
+    -> id int(19) NOT NULL,
+    -> Articulos varchar(16),
+    -> PRIMARY KEY (id,Articulos) );
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+mysql> 
+mysql> INSERT INTO CarritoA Values 
+    -> (1, 'huevo'),(2, 'Pan'),
+    -> (3, 'frijol'),(4, 'pan'),
+    -> (5, 'galleta');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+mysql> CREATE TABLE CarritoB (
+    -> id int(19) NOT NULL,
+    -> Articulos varchar(16),
+    -> PRIMARY KEY (id,Articulos) );
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+mysql> INSERT INTO CarritoB Values 
+    -> (1, 'Azucar'),(2, 'manzana'),
+    -> (6, 'pepino'),(7, 'Queso'),
+    -> (8, 'huevo');  
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+mysql> Select * from CarritoA left join CarritoB on CarritoA.Articulos = CarritoB.Articulos
+    -> UNION 
+    -> Select * from CarritoA right join CarritoB on CarritoA.Articulos = CarritoB.Articulos;
++------+-----------+------+-----------+
+| id   | Articulos | id   | Articulos |
++------+-----------+------+-----------+
+|    1 | huevo     |    8 | huevo     |
+|    2 | Pan       | NULL | NULL      |
+|    3 | frijol    | NULL | NULL      |
+|    4 | pan       | NULL | NULL      |
+|    5 | galleta   | NULL | NULL      |
+| NULL | NULL      |    1 | Azucar    |
+| NULL | NULL      |    2 | manzana   |
+| NULL | NULL      |    6 | pepino    |
+| NULL | NULL      |    7 | Queso     |
++------+-----------+------+-----------+
+9 rows in set (0.01 sec)
