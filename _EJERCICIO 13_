@@ -1,0 +1,49 @@
+mysql> show databases;
++------------------------------------+
+| Database                           |
++------------------------------------+
+| BRianRams$Brian-Trabajos           |
+| BRianRams$ConcanetacionDeGrupos    |
+| BRianRams$Flujos                   |
+| BRianRams$Licencias                |
+| BRianRams$Marte                    |
+| BRianRams$Numeros                  |
+| BRianRams$Permutacion              |
+| BRianRams$PromedioDeDias           |
+| BRianRams$SeguimientoDelInventario |
+| BRianRams$Trabajadores             |
+| BRianRams$carrito                  |
+| BRianRams$desarrollo               |
+| BRianRams$directorio               |
+| BRianRams$ordenes                  |
+| information_schema                 |
+| performance_schema                 |
++------------------------------------+
+16 rows in set (0.11 sec)
+
+mysql> use BRianRams$ConcanetacionDeGrupos  ;
+Database changed
+mysql> CREATE TABLE Grupos (
+    ->   Secuencia int NOT NULL,
+    ->   Sintaxis varchar(12),
+    ->     PRIMARY KEY(Secuencia) );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO Grupos VALUES
+    -> (1, 'SELECT'),(2, 'Producto,'),(3, 'Precio,'),
+    -> (4, 'Disponibilidad,'),(5, 'FROM'),(6, 'Productos'),
+    -> (7, 'WHERE'),(8, 'Precio'),(9, '>100');
+Query OK, 9 rows affected, 1 warning (0.02 sec)
+Records: 9  Duplicates: 0  Warnings: 1
+
+mysql> SELECT GROUP_CONCAT(Sintaxis SEPARATOR ' ') AS Sintaxis
+    -> FROM Grupos
+    -> ORDER BY Secuencia;
++------------------------------------------------------------------------+
+| Sintaxis                                                               |
++------------------------------------------------------------------------+
+| SELECT Producto, Precio, Disponibilid FROM Productos WHERE Precio >100 |
++------------------------------------------------------------------------+
+1 row in set (0.01 sec)
+
+mysql> 
