@@ -1,0 +1,48 @@
+mysql> show databases;
++--------------------------+
+| Database                 |
++--------------------------+
+| BRianRams$Brian-Trabajos |
+| BRianRams$Flujos         |
+| BRianRams$Licencias      |
+| BRianRams$Marte          |
+| BRianRams$Numeros        |
+| BRianRams$Trabajadores   |
+| BRianRams$carrito        |
+| BRianRams$desarrollo     |
+| BRianRams$directorio     |
+| BRianRams$ordenes        |
+| information_schema       |
+| performance_schema       |
++--------------------------+
+12 rows in set (0.06 sec)
+
+mysql> use BRianRams$Flujos ;
+Database changed
+mysql> CREATE TABLE Trabajo (
+    -> Flujo varchar(18) NOT NULL,
+    -> Caso_1 int(14) NOT NULL,Caso_2 int(14) NOT NULL,Caso_3 int(14) NOT NULL,
+    -> PRIMARY KEY(Flujo)
+    -> );
+Query OK, 0 rows affected, 3 warnings (0.05 sec)
+
+mysql> INSERT INTO Trabajo VALUES
+    -> ('Alta_De_Usuario',0,0,0),('Baja_De_Usuario',0,1,1),('Nueva_Orden',1,0,0),('Elimina_Orden',0,0,0);
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT
+    -> Flujo,   (Caso_1 + Caso_2 + Caso_3) AS Aprobado
+    -> FROM
+    ->     Trabajo;
++-----------------+----------+
+| Flujo           | Aprobado |
++-----------------+----------+
+| Alta_De_Usuario |        0 |
+| Baja_De_Usuario |        2 |
+| Elimina_Orden   |        0 |
+| Nueva_Orden     |        1 |
++-----------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> 
