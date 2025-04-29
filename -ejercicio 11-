@@ -1,0 +1,82 @@
+mysql> show databases;
++--------------------------+
+| Database                 |
++--------------------------+
+| BRianRams$Brian-Trabajos |
+| BRianRams$Flujos         |
+| BRianRams$Licencias      |
+| BRianRams$Marte          |
+| BRianRams$Numeros        |
+| BRianRams$Permutacion    |
+| BRianRams$PromedioDeDias |
+| BRianRams$Trabajadores   |
+| BRianRams$carrito        |
+| BRianRams$desarrollo     |
+| BRianRams$directorio     |
+| BRianRams$ordenes        |
+| information_schema       |
+| performance_schema       |
++--------------------------+
+14 rows in set (0.11 sec)
+
+mysql> use BRianRams$PromedioDeDias ;
+Database changed
+mysql> CREATE TABLE Promedio (
+    ->    Desarrollo varchar(18) NOT NULL,
+    ->    Terminacion DATE NOT NULL,
+    ->     PRIMARY KEY(Desarrollo, Terminacion) );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> INSERT INTO Promedio VALUES
+    ->  ('RestAPI','2024-06-01'),('RestAPI','2024-06-14'),('RestAPI','2024-06-15'),
+    ->  ('Web','2024-06-01'),('Web','2024-06-02'),('Web','2024-06-19'),
+    ->  ('App','2024-06-01'),('App','2024-05-15'),('App','2024-06-30');
+Query OK, 9 rows affected (0.01 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> SELECT 
+    ->  f1.Desarrollo,
+    ->   ROUND(AVG(DATEDIFF(f1.Terminacion, f2.Terminacion))) AS PromedioFROM Promedio f1
+    -> JOIN Promedio f2 
+    ->     ON f1.Desarrollo = f2.Desarrollo AND f2.Terminacion = (
+    ->         SELECT MAX(f3.Terminacion)
+    ->         FROM Promedio f3
+    ->         WHERE f3.Desarrollo = f1.Desarrollo AND f3.Terminacion < f1.Terminacion )
+    -> GROUP BY f1.Desarrollo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Promedio f1
+JOIN Promedio f2 
+    ON f1.Desarrollo = f2.Desarrollo AND f2.Termin' at line 3
+mysql> SELECT 
+    ->     f1.Desarrollo,
+    ->     ROUND(AVG(DATEDIFF(f1.Terminacion, f2.Terminacion))) AS Promedio
+    -> FROM Promedio f1JOIN Promedio f2 
+    ->     ON f1.Desarrollo = f2.Desarrollo AND f2.Terminacion = (
+    ->         SELECT MAX(f3.Terminacion)
+    ->         FROM Promedio f3
+    ->         WHERE f3.Desarrollo = f1.Desarrollo AND f3.Terminacion < f1.Terminacion
+    ->     )
+    -> GROUP BY f1.Desarrollo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Promedio f2 
+    ON f1.Desarrollo = f2.Desarrollo AND f2.Terminacion = (
+       ' at line 4
+mysql> SELECT 
+    ->     f1.Desarrollo,
+    ->     ROUND(AVG(DATEDIFF(f1.Terminacion, f2.Terminacion))) AS Promedio
+    -> FROM Promedio f1
+    -> JOIN Promedio f2 
+    -> ON f1.Desarrollo = f2.Desarrollo AND f2.Terminacion = (
+    ->  SELECT MAX(f3.Terminacion)
+    -> FROM Promedio f3
+    ->  WHERE f3.Desarrollo = f1.Desarrollo AND f3.Terminacion < f1.Terminacion
+    ->     )
+    -> GROUP BY f1.Desarrollo;
++------------+----------+
+| Desarrollo | Promedio |
++------------+----------+
+| App        |       23 |
+| RestAPI    |        7 |
+| Web        |        9 |
++------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> 
