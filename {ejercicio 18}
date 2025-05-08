@@ -1,0 +1,63 @@
+mysql> show databases;
++------------------------------------+
+| Database                           |
++------------------------------------+
+| BRianRams$Brian-Trabajos           |
+| BRianRams$ConcanetacionDeGrupos    |
+| BRianRams$Flujos                   |
+| BRianRams$Licencias                |
+| BRianRams$MarcadoresGlobales       |
+| BRianRams$Marte                    |
+| BRianRams$Numeros                  |
+| BRianRams$Periodos                 |
+| BRianRams$Permutacion              |
+| BRianRams$PromedioDeDias           |
+| BRianRams$RegistroDeProcesos       |
+| BRianRams$SeguimientoDelInventario |
+| BRianRams$Trabajadores             |
+| BRianRams$asientos                 |
+| BRianRams$carrito                  |
+| BRianRams$desarrollo               |
+| BRianRams$directorio               |
+| BRianRams$ordenes                  |
+| BRianRams$productos                |
+| information_schema                 |
+| performance_schema                 |
++------------------------------------+
+21 rows in set (0.10 sec)
+
+mysql> use BRianRams$productos ;
+Database changed
+mysql> CREATE TABLE Productos (
+    ->     Producto varchar(15) NOT NULL,
+    ->     Cantidad int NOT NULL,
+    ->     PRIMARY KEY(Producto, Cantidad) );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO Productos values
+    -> ('Lapiz',3),('Borrador',4),('Cuaderno',2);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> SELECT 'Lápiz' AS Productos, 1 AS Cantidad FROM (SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3) AS t
+    -> UNION ALL
+    -> SELECT 'Borrador', 1 FROM (SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) AS t
+    -> UNION ALL
+    -> SELECT 'Cuaderno', 1 FROM (SELECT 1 UNION ALL SELECT 2) AS t;
++-----------+----------+
+| Productos | Cantidad |
++-----------+----------+
+| Lápiz     |        1 |
+| Lápiz     |        1 |
+| Lápiz     |        1 |
+| Borrador  |        1 |
+| Borrador  |        1 |
+| Borrador  |        1 |
+| Borrador  |        1 |
+| Cuaderno  |        1 |
+| Cuaderno  |        1 |
++-----------+----------+
+9 rows in set (0.00 sec)
+
+mysql> 
