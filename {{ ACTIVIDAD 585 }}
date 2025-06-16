@@ -1,0 +1,11 @@
+# Write your MySQL query statement below
+WITH T AS (
+    SELECT
+        TIV_2016,
+        COUNT(1) OVER (PARTITION BY TIV_2015) AS cnt1,
+        COUNT(1) OVER (PARTITION BY LAT, LON) AS cnt2
+    FROM Insurance)
+    
+SELECT ROUND(SUM(TIV_2016), 2) AS TIV_2016
+FROM T
+WHERE cnt1 > 1 AND cnt2 = 1;
